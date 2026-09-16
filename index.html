@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP32 Smart Car News | Robot Project Updates</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        @keyframes ticker {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+        .animate-ticker {
+            display: inline-flex;
+            white-space: nowrap;
+            animation: ticker 35s linear infinite;
+        }
+        .animate-ticker:hover {
+            animation-play-state: paused;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 antialiased transition-colors duration-300 min-h-screen flex flex-col justify-between">
+
+    <!-- Breaking News Ticker -->
+    <div class="bg-cyan-600 dark:bg-cyan-950 text-white text-xs sm:text-sm overflow-hidden py-2 px-4 flex items-center shadow-inner relative z-50">
+        <div class="bg-cyan-800 dark:bg-cyan-900 text-white font-bold px-3 py-1 rounded uppercase tracking-wider text-xs mr-4 flex items-center shrink-0 shadow-sm">
+            <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-ping mr-2"></span>
+            Live Updates
+        </div>
+        <div class="overflow-hidden whitespace-nowrap w-full">
+            <div class="animate-ticker inline-block">
+                <span class="mx-6 font-medium">• ESP32 Smart Car V2.0 Firmware is now officially released for download.</span>
+                <span class="mx-6 font-medium">• New HC-SR04 ultrasonic sensor and servo motor calibration script added.</span>
+                <span class="mx-6 font-medium">• Upgraded from L298N to TB6612FNG motor driver resulting in a 30% speed boost.</span>
+                <span class="mx-6 font-medium">• Check out our latest guide on setting up Wi-Fi remote control via Blynk IoT.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 sticky top-0 z-40 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <a href="#" class="flex items-center space-x-3 group">
+                        <div class="bg-gradient-to-tr from-cyan-600 to-blue-600 text-white p-3 rounded-2xl font-black text-xl shadow-lg group-hover:scale-105 transition transform">
+                            <i class="fa-solid fa-car-side"></i>
+                        </div>
+                        <div>
+                            <span class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">ESP32 <span class="text-cyan-600 dark:text-cyan-400">Smart Car</span></span>
+                            <span class="block text-[11px] tracking-widest text-slate-500 dark:text-slate-400 font-semibold uppercase">Robot Project News</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Search & Actions -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <div class="relative">
+                        <input type="text" id="searchInput" placeholder="Search news and code..." class="bg-slate-100 dark:bg-slate-800 text-sm rounded-full pl-10 pr-4 py-2.5 w-64 focus:outline-none focus:ring-2 focus:ring-cyan-600 transition dark:text-white placeholder-slate-400">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-400 text-sm"></i>
+                    </div>
+                    <!-- Theme Toggle Button -->
+                    <button onclick="toggleDarkMode()" id="themeToggleBtn" class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 p-2.5 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition shadow-sm" title="Toggle Theme">
+                        <i class="fa-solid fa-moon dark:hidden text-lg"></i>
+                        <i class="fa-solid fa-sun hidden dark:inline text-lg text-amber-400"></i>
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Toggle & Theme -->
+                <div class="flex md:hidden items-center space-x-2">
+                    <button onclick="toggleDarkMode()" class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 p-2.5 rounded-full">
+                        <i class="fa-solid fa-moon dark:hidden"></i>
+                        <i class="fa-solid fa-sun hidden dark:inline text-amber-400"></i>
+                    </button>
+                    <button id="mobileMenuBtn" class="text-slate-700 dark:text-slate-200 p-2">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Drawer Menu -->
+    <div id="mobileMenu" class="fixed inset-0 bg-slate-950/75 z-50 hidden backdrop-blur-sm">
+        <div class="bg-white dark:bg-slate-900 w-72 h-full shadow-2xl p-6 flex flex-col justify-between">
+            <div>
+                <div class="flex justify-between items-center mb-6">
+                    <span class="text-xl font-black text-slate-900 dark:text-white">ESP32 <span class="text-cyan-600">Car</span></span>
+                    <button id="closeMobileMenu" class="text-slate-500 hover:text-slate-900 dark:hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+                </div>
+                <div class="space-y-4 text-sm font-medium text-slate-700 dark:text-slate-300">
+                    <p class="py-2 border-b border-slate-100 dark:border-slate-800"><i class="fa-solid fa-newspaper mr-2 text-cyan-600"></i> All Project News</p>
+                    <p class="py-2 border-b border-slate-100 dark:border-slate-800"><i class="fa-solid fa-code mr-2 text-blue-500"></i> Firmware & Code</p>
+                    <p class="py-2"><i class="fa-solid fa-microchip mr-2 text-emerald-500"></i> Sensors & Hardware</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Layout -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Main News Feed (2 cols) -->
+            <div class="lg:col-span-2 space-y-8">
+                
+                <!-- Hero Featured News Container (Rendered dynamically from top sorted article) -->
+                <div id="heroContainer"></div>
+
+                <div>
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-bold text-slate-900 dark:text-white border-l-4 border-cyan-600 pl-3">All Project News & Build Logs</h2>
+                        <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Auto-sorted by newest first</span>
+                    </div>
+
+                    <!-- Articles Grid Container (Rendered dynamically from sorted array) -->
+                    <div id="articlesGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-6"></div>
+                </div>
+
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="space-y-6">
+                
+                <!-- Project Status Widget -->
+                <div class="bg-gradient-to-br from-cyan-600 to-blue-700 text-white rounded-3xl p-6 shadow-xl relative overflow-hidden">
+                    <div class="absolute right-[-10px] bottom-[-10px] opacity-10 text-8xl">
+                        <i class="fa-solid fa-microchip"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-1">Project Status</h3>
+                    <p class="text-cyan-100 text-xs mb-4">ESP32 Smart Car Development Phase</p>
+                    <div class="grid grid-cols-2 gap-4 py-2">
+                        <div class="bg-white/10 p-3.5 rounded-2xl backdrop-blur-md">
+                            <span class="block text-cyan-200 text-xs">Firmware Version</span>
+                            <span class="text-xl font-black">v2.0 Stable</span>
+                        </div>
+                        <div class="bg-white/10 p-3.5 rounded-2xl backdrop-blur-md">
+                            <span class="block text-cyan-200 text-xs">Motor Efficiency</span>
+                            <span class="text-xl font-black">94.5%</span>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-white/20 text-xs text-cyan-100 flex justify-between items-center">
+                        <span>Core Diagnostics</span>
+                        <span class="text-emerald-300 font-bold"><i class="fa-solid fa-circle-check mr-1"></i> Passed</span>
+                    </div>
+                </div>
+
+            </aside>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 pt-16 pb-12 border-t border-slate-800 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="bg-cyan-600 text-white p-2.5 rounded-xl font-black text-lg"><i class="fa-solid fa-car-side"></i></div>
+                        <span class="text-xl font-black text-white tracking-tight">ESP32 <span class="text-cyan-500">Car</span></span>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        A dedicated news and build log portal for the ESP32 microcontroller-based smart robot car project, featuring real-time firmware updates and schematics.
+                    </p>
+                    <div class="flex space-x-4 text-lg">
+                        <a href="#" class="hover:text-cyan-400 transition"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="hover:text-cyan-400 transition"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#" class="hover:text-cyan-400 transition"><i class="fa-brands fa-discord"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold text-sm uppercase tracking-wider mb-4">Core Sections</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#" class="hover:text-white transition">Firmware Releases</a></li>
+                        <li><a href="#" class="hover:text-white transition">Sensor Guides</a></li>
+                        <li><a href="#" class="hover:text-white transition">Motor Driver Setup</a></li>
+                        <li><a href="#" class="hover:text-white transition">Wi-Fi & Bluetooth Control</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold text-sm uppercase tracking-wider mb-4">Code & Resources</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#" class="hover:text-white transition">Arduino IDE Libraries</a></li>
+                        <li><a href="#" class="hover:text-white transition">GitHub Repository</a></li>
+                        <li><a href="#" class="hover:text-white transition">Wiring Schematics</a></li>
+                        <li><a href="#" class="hover:text-white transition">Frequently Asked Questions</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold text-sm uppercase tracking-wider mb-4">Robot Community</h4>
+                    <p class="text-xs text-slate-400 mb-4">Connect with fellow robotics enthusiasts and builders.</p>
+                    <div class="space-y-2">
+                        <button class="w-full bg-slate-800 hover:bg-slate-700 text-white text-xs font-medium py-2.5 px-4 rounded-xl flex items-center justify-center space-x-2 transition border border-slate-700">
+                            <i class="fa-brands fa-discord text-base"></i>
+                            <span>Discord Server</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-800 pt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500">
+                <p>&copy; 2026 ESP32 Smart Car Project. All rights reserved.</p>
+                <p class="mt-2 sm:mt-0">Powered by Tailwind CSS</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Article Detail Modal -->
+    <div id="articleModal" class="fixed inset-0 bg-slate-950/75 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white dark:bg-slate-900 max-w-2xl w-full rounded-3xl shadow-2xl overflow-hidden transform transition-all max-h-[90vh] flex flex-col border border-slate-200 dark:border-slate-800">
+            <div class="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-950">
+                <span class="bg-cyan-600 text-white text-xs font-bold uppercase tracking-wider px-3.5 py-1 rounded-full">Project Update</span>
+                <button onclick="closeArticleModal()" class="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 text-xl font-bold p-1"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto space-y-4">
+                <h2 id="modalTitleText" class="text-2xl font-extrabold text-slate-900 dark:text-white leading-snug">Article Title</h2>
+                <div class="flex items-center space-x-3 text-xs text-slate-500 dark:text-slate-400">
+                    <span id="modalDateText"><i class="fa-regular fa-clock mr-1"></i> Date</span>
+                    <span>•</span>
+                    <span id="modalAuthorText">Author</span>
+                </div>
+                <div class="h-64 rounded-2xl overflow-hidden my-4 bg-slate-100 dark:bg-slate-800">
+                    <img id="modalImageSrc" src="https://placehold.co/800x450/0891b2/ffffff?text=ESP32+Car+News" alt="Article image" class="w-full h-full object-cover">
+                </div>
+                <p id="modalContentText" class="text-slate-700 dark:text-slate-300 text-base leading-relaxed">
+                    Full article content goes here.
+                </p>
+            </div>
+            <div class="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 flex justify-between items-center">
+                <div class="flex space-x-3">
+                    <button onclick="showToast('Article link copied or shared successfully!')" class="text-xs bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-4 py-2 rounded-xl font-semibold transition flex items-center space-x-1.5"><i class="fa-solid fa-share-nodes"></i> <span>Share</span></button>
+                </div>
+                <button onclick="closeArticleModal()" class="bg-cyan-600 text-white text-sm font-semibold px-5 py-2.5 rounded-xl hover:bg-cyan-700 transition">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toastNotification" class="fixed bottom-6 right-6 bg-slate-900 dark:bg-slate-800 text-white px-5 py-3.5 rounded-2xl shadow-2xl z-50 transform translate-y-20 opacity-0 transition-all duration-300 flex items-center space-x-3 border border-slate-700">
+        <i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+        <span id="toastMessage" class="text-sm font-medium">Notification message</span>
+    </div>
+
+    <script>
+        /* 
+          ========================================================
+          ESP32 SMART CAR NEWS - DATA & AUTOMATIC SORTING SYSTEM
+          ========================================================
+          How to add new news articles:
+          Add a new object to the 'newsArticles' array below using the format:
+          
+          {
+              id: unique_number,
+              title: "Your News Title Here",
+              summary: "A short summary of the article...",
+              content: "The complete detailed content of your article...",
+              date: "YYYY-MM-DD", (e.g. "2026-09-16")
+              time: "HH:MM",    (24-hour format, e.g. "16:45")
+              author: "Author Name",
+              category: "Category Name",
+              image: "Image URL",
+              likes: 15
+          }
+
+          * NOTE: The script automatically calculates how long ago the article 
+            was published compared to today's date and time, and sorts them newest first!
+        */
+        const newsArticles = [
+            {
+                id: 1,
+                title: "ESP32 Smart Car V2.0 Firmware and ESP-NOW Remote Released",
+                summary: "Integrating ESP-NOW and Bluetooth 5.0 for ultra-low latency control and enhanced motor response.",
+                content: "Today we are officially releasing the V2.0 firmware update for our ESP32 robot car project. Wi-Fi and Bluetooth connectivity have been significantly stabilized, and the new ESP-NOW protocol allows zero-latency control. The new PWM motor control scheme also extends motor lifespan.",
+                date: "2026-09-16",
+                time: "14:30",
+                author: "Chamidu Madushan",
+                category: "Firmware Update",
+                image: "https://placehold.co/900x500/0891b2/ffffff?text=ESP32+Smart+Car+V2.0",
+                likes: 42
+            },
+            {
+                id: 2,
+                title: "360° Radar Mapping System Using HC-SR04 and SG90 Servo",
+                summary: "Accurately detecting obstacles ahead and generating a 360-degree environment scan.",
+                content: "We have updated the Arduino IDE code to mount the HC-SR04 ultrasonic sensor on an SG90 servo motor for automatic scanning of rooms or tracks. The data can now be visualized graphically in the Processing IDE on your computer.",
+                date: "2026-09-16",
+                time: "10:15",
+                author: "Chamidu Madushan",
+                category: "Sensors",
+                image: "https://placehold.co/600x400/0284c7/ffffff?text=Ultrasonic+Radar",
+                likes: 38
+            },
+            {
+                id: 3,
+                title: "Low-Latency Wi-Fi Video Streaming with ESP32-CAM",
+                summary: "Control your robot car while viewing a live camera feed directly on your smartphone screen.",
+                content: "By mounting an ESP32-CAM module to the front of the robot car, we optimized the MJPEG video server code for an FPV (First Person View) driving experience. You can stream live footage at 25fps right through any mobile web browser.",
+                date: "2026-09-15",
+                time: "18:00",
+                author: "Chamidu Madushan",
+                category: "Camera & Video",
+                image: "https://placehold.co/600x400/0d9488/ffffff?text=ESP32-CAM+Stream",
+                likes: 74
+            },
+            {
+                id: 4,
+                title: "Li-ion 18650 Batteries & LM2596 Voltage Regulator Integration",
+                summary: "How to prevent the ESP32 microcontroller from suddenly resetting when high-draw motors engage.",
+                content: "A detailed guide on utilizing a separate battery supply and an LM2596 buck converter to eliminate voltage spikes coming from the motor driver, preventing unexpected ESP32 reboots during heavy acceleration.",
+                date: "2026-09-14",
+                time: "12:00",
+                author: "Chamidu Madushan",
+                category: "Power Management",
+                image: "https://placehold.co/600x400/4f46e5/ffffff?text=Power+Management",
+                likes: 51
+            },
+            {
+                id: 5,
+                title: "Controlling Your Car from Anywhere in the World via Blynk IoT Cloud",
+                summary: "Setting up Blynk IoT cloud integration to pilot your robot car over the internet.",
+                content: "By connecting your Wi-Fi enabled ESP32 smart car to the Blynk IoT platform, you can control car speed, direction, and headlights from a smartphone app even when you are miles away.",
+                date: "2026-09-13",
+                time: "09:30",
+                author: "Chamidu Madushan",
+                category: "IoT Control",
+                image: "https://placehold.co/600x400/2563eb/ffffff?text=Blynk+IoT+App",
+                likes: 89
+            }
+        ];
+
+        // Function to automatically calculate relative time (e.g., "Just now", "2 hours ago", "Yesterday", or formatted date)
+        function getRelativeTime(dateStr, timeStr) {
+            const articleDate = new Date(`${dateStr}T${timeStr}`);
+            const now = new Date();
+            const diffMs = now - articleDate;
+            const diffMins = Math.floor(diffMs / (1000 * 60));
+            const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+            const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+            if (diffMins < 1) return 'Just now';
+            if (diffMins < 60) return `${diffMins} min${diffMins > 1 ? 's' : ''} ago`;
+            if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+            if (diffDays === 1) return 'Yesterday';
+            if (diffDays < 7) return `${diffDays} days ago`;
+            
+            return articleDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+
+        // 1. Automatically sort articles descending by date and time (newest first)
+        function sortArticles() {
+            newsArticles.sort((a, b) => {
+                const dateTimeA = new Date(`${a.date}T${a.time}`);
+                const dateTimeB = new Date(`${b.date}T${b.time}`);
+                return dateTimeB - dateTimeA; // Newest date & time first
+            });
+        }
+
+        // 2. Render news feed dynamically with auto-calculated time labels
+        function renderNewsFeed() {
+            sortArticles();
+
+            const heroContainer = document.getElementById('heroContainer');
+            const articlesGrid = document.getElementById('articlesGrid');
+
+            if (newsArticles.length === 0) return;
+
+            // Render the newest article as the Hero Card
+            const latest = newsArticles[0];
+            const latestTimeAgo = getRelativeTime(latest.date, latest.time);
+            heroContainer.innerHTML = `
+                <div class="relative bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-xl border border-slate-200 dark:border-slate-800 group">
+                    <div class="relative h-80 sm:h-96 overflow-hidden">
+                        <img src="${latest.image}" alt="${latest.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
+                        <span class="absolute top-4 left-4 bg-cyan-600 text-white text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-md">${latest.category}</span>
+                        <div class="absolute bottom-6 left-6 right-6 text-white">
+                            <div class="flex items-center space-x-3 text-xs text-slate-300 mb-2">
+                                <span><i class="fa-regular fa-clock mr-1"></i> ${latestTimeAgo}</span>
+                                <span>•</span>
+                                <span>${latest.author}</span>
+                            </div>
+                            <h1 onclick="openArticleModal(${latest.id})" class="text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight tracking-tight hover:text-cyan-300 transition cursor-pointer">
+                                ${latest.title}
+                            </h1>
+                            <p class="mt-3 text-slate-300 text-sm sm:text-base line-clamp-2 hidden sm:block">
+                                ${latest.summary}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Render remaining articles in the grid (sorted)
+            let gridHtml = '';
+            for (let i = 1; i < newsArticles.length; i++) {
+                const art = newsArticles[i];
+                const timeAgoText = getRelativeTime(art.date, art.time);
+                gridHtml += `
+                    <article class="bg-white dark:bg-slate-900 rounded-2xl overflow-hidden shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-md transition flex flex-col justify-between article-item" data-title="${art.title.toLowerCase()}" data-content="${art.content.toLowerCase()}">
+                        <div>
+                            <div class="relative h-48 overflow-hidden">
+                                <img src="${art.image}" alt="${art.title}" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+                                <span class="absolute top-3 left-3 bg-cyan-600/95 text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">${art.category}</span>
+                            </div>
+                            <div class="p-5">
+                                <div class="flex items-center text-xs text-slate-500 dark:text-slate-400 mb-2 space-x-2">
+                                    <span><i class="fa-regular fa-clock mr-1"></i> ${timeAgoText}</span>
+                                    <span>•</span>
+                                    <span>${art.author}</span>
+                                </div>
+                                <h3 onclick="openArticleModal(${art.id})" class="font-bold text-slate-900 dark:text-white text-lg leading-snug hover:text-cyan-600 dark:hover:text-cyan-400 transition cursor-pointer mb-2">
+                                    ${art.title}
+                                </h3>
+                                <p class="text-slate-600 dark:text-slate-300 text-sm line-clamp-2">
+                                    ${art.summary}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="px-5 pb-5 pt-0 flex justify-between items-center text-xs text-slate-500 dark:text-slate-400 border-t border-slate-100 dark:border-slate-800 pt-3 mt-2">
+                            <button onclick="toggleBookmark(this)" class="hover:text-cyan-600 transition flex items-center space-x-1"><i class="fa-regular fa-bookmark"></i> <span>Save</span></button>
+                            <button onclick="toggleLike(this)" class="hover:text-rose-500 transition flex items-center space-x-1"><i class="fa-regular fa-heart"></i> <span class="like-count">${art.likes}</span></button>
+                        </div>
+                    </article>
+                `;
+            }
+            articlesGrid.innerHTML = gridHtml;
+        }
+
+        // Run rendering on load
+        window.addEventListener('DOMContentLoaded', () => {
+            renderNewsFeed();
+        });
+
+        // Dark Mode Toggle Logic
+        function toggleDarkMode() {
+            const htmlEl = document.documentElement;
+            if (htmlEl.classList.contains('dark')) {
+                htmlEl.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                htmlEl.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Check local storage theme preference
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
+        // Mobile Menu
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const closeMobileMenu = document.getElementById('closeMobileMenu');
+
+        mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.remove('hidden'));
+        closeMobileMenu.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+
+        // Article Modal
+        function openArticleModal(id) {
+            const article = newsArticles.find(a => a.id === id);
+            if (!article) return;
+
+            const timeAgoText = getRelativeTime(article.date, article.time);
+            document.getElementById('modalTitleText').innerText = article.title;
+            document.getElementById('modalContentText').innerText = article.content;
+            document.getElementById('modalDateText').innerHTML = `<i class="fa-regular fa-clock mr-1"></i> ${timeAgoText} (${article.date} at ${article.time})`;
+            document.getElementById('modalAuthorText').innerText = article.author;
+            document.getElementById('modalImageSrc').src = article.image;
+            document.getElementById('articleModal').classList.remove('hidden');
+        }
+
+        function closeArticleModal() {
+            document.getElementById('articleModal').classList.add('hidden');
+        }
+
+        // Toast Helper
+        function showToast(message) {
+            const toast = document.getElementById('toastNotification');
+            document.getElementById('toastMessage').innerText = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3500);
+        }
+
+        // Interactive Bookmarks
+        function toggleBookmark(btn) {
+            const icon = btn.querySelector('i');
+            const span = btn.querySelector('span');
+            if (icon.classList.contains('fa-regular')) {
+                icon.classList.remove('fa-regular');
+                icon.classList.add('fa-solid');
+                icon.style.color = '#0891b2';
+                span.innerText = 'Saved';
+                showToast('Article saved to your reading list!');
+            } else {
+                icon.classList.remove('fa-solid');
+                icon.classList.add('fa-regular');
+                icon.style.color = '';
+                span.innerText = 'Save';
+                showToast('Article removed from reading list.');
+            }
+        }
+
+        // Interactive Likes
+        function toggleLike(btn) {
+            const icon = btn.querySelector('i');
+            const countSpan = btn.querySelector('.like-count');
+            let count = parseInt(countSpan.innerText);
+            if (icon.classList.contains('fa-regular')) {
+                icon.classList.remove('fa-regular');
+                icon.classList.add('fa-solid');
+                icon.style.color = '#e11d48';
+                countSpan.innerText = count + 1;
+                showToast('Thank you for liking this article!');
+            } else {
+                icon.classList.remove('fa-solid');
+                icon.classList.add('fa-regular');
+                icon.style.color = '';
+                countSpan.innerText = count - 1;
+            }
+        }
+
+        // Search bar functionality
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const articles = document.querySelectorAll('.article-item');
+            articles.forEach(art => {
+                const titleText = art.getAttribute('data-title') || '';
+                const contentText = art.getAttribute('data-content') || '';
+                if (titleText.includes(term) || contentText.includes(term)) {
+                    art.style.display = 'flex';
+                } else {
+                    art.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
