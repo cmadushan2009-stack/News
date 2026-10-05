@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,72 +20,97 @@
         }
     </script>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <style>
         @keyframes ticker {
-            0% { transform: translate3d(0, 0, 0); }
-            100% { transform: translate3d(-50%, 0, 0); }
+            0% {
+                transform: translate3d(0, 0, 0);
+            }
+
+            100% {
+                transform: translate3d(-50%, 0, 0);
+            }
         }
+
         .animate-ticker {
             display: inline-flex;
             white-space: nowrap;
             animation: ticker 35s linear infinite;
         }
+
         .animate-ticker:hover {
             animation-play-state: paused;
         }
+
         ::-webkit-scrollbar {
             width: 8px;
         }
+
         ::-webkit-scrollbar-track {
             background: #f1f5f9;
         }
+
         .dark ::-webkit-scrollbar-track {
             background: #1e293b;
         }
+
         ::-webkit-scrollbar-thumb {
             background: #cbd5e1;
             border-radius: 4px;
         }
+
         .dark ::-webkit-scrollbar-thumb {
             background: #475569;
         }
     </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 antialiased transition-colors duration-300 min-h-screen flex flex-col justify-between">
+
+<body
+    class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 antialiased transition-colors duration-300 min-h-screen flex flex-col justify-between">
 
     <!-- Breaking News Ticker -->
-    <div class="bg-cyan-600 dark:bg-cyan-950 text-white text-xs sm:text-sm overflow-hidden py-2 px-4 flex items-center shadow-inner relative z-50">
-        <div class="bg-cyan-800 dark:bg-cyan-900 text-white font-bold px-3 py-1 rounded uppercase tracking-wider text-xs mr-4 flex items-center shrink-0 shadow-sm">
+    <div
+        class="bg-cyan-600 dark:bg-cyan-950 text-white text-xs sm:text-sm overflow-hidden py-2 px-4 flex items-center shadow-inner relative z-50">
+        <div
+            class="bg-cyan-800 dark:bg-cyan-900 text-white font-bold px-3 py-1 rounded uppercase tracking-wider text-xs mr-4 flex items-center shrink-0 shadow-sm">
             <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-ping mr-2"></span>
             Live Updates
         </div>
         <div class="overflow-hidden whitespace-nowrap w-full">
             <div class="animate-ticker inline-block">
-                <span class="mx-6 font-medium">• ESP32 Smart Car V2.0 Firmware is now officially released for download.</span>
-                <span class="mx-6 font-medium">• New HC-SR04 ultrasonic sensor and servo motor calibration script added.</span>
-                <span class="mx-6 font-medium">• Upgraded from L298N to TB6612FNG motor driver resulting in a 30% speed boost.</span>
+                <span class="mx-6 font-medium">• ESP32 Smart Car V2.0 Firmware is now officially released for
+                    download.</span>
+                <span class="mx-6 font-medium">• New HC-SR04 ultrasonic sensor and servo motor calibration script
+                    added.</span>
+                <span class="mx-6 font-medium">• Upgraded from L298N to TB6612FNG motor driver resulting in a 30% speed
+                    boost.</span>
                 <span class="mx-6 font-medium">• Chamidu Madushan</span>
             </div>
         </div>
     </div>
 
     <!-- Header & Navigation -->
-    <header class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 sticky top-0 z-40 transition-colors">
+    <header
+        class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 sticky top-0 z-40 transition-colors">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <!-- Logo -->
                 <div class="flex items-center space-x-3">
                     <a href="#" class="flex items-center space-x-3 group">
-                        <div class="bg-gradient-to-tr from-cyan-600 to-blue-600 text-white p-3 rounded-2xl font-black text-xl shadow-lg group-hover:scale-105 transition transform">
+                        <div
+                            class="bg-gradient-to-tr from-cyan-600 to-blue-600 text-white p-3 rounded-2xl font-black text-xl shadow-lg group-hover:scale-105 transition transform">
                             <i class="fa-solid fa-car-side"></i>
                         </div>
                         <div>
-                            <span class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">ESP32 <span class="text-cyan-600 dark:text-cyan-400">Smart Car</span></span>
-                            <span class="block text-[11px] tracking-widest text-slate-500 dark:text-slate-400 font-semibold uppercase">Robot Project News</span>
+                            <span class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">ESP32
+                                <span class="text-cyan-600 dark:text-cyan-400">Smart Car</span></span>
+                            <span
+                                class="block text-[11px] tracking-widest text-slate-500 dark:text-slate-400 font-semibold uppercase">Robot
+                                Project News</span>
                         </div>
                     </a>
                 </div>
@@ -92,11 +118,14 @@
                 <!-- Search & Actions -->
                 <div class="hidden md:flex items-center space-x-4">
                     <div class="relative">
-                        <input type="text" id="searchInput" placeholder="Search news and code..." class="bg-slate-100 dark:bg-slate-800 text-sm rounded-full pl-10 pr-4 py-2.5 w-64 focus:outline-none focus:ring-2 focus:ring-cyan-600 transition dark:text-white placeholder-slate-400">
+                        <input type="text" id="searchInput" placeholder="Search news and code..."
+                            class="bg-slate-100 dark:bg-slate-800 text-sm rounded-full pl-10 pr-4 py-2.5 w-64 focus:outline-none focus:ring-2 focus:ring-cyan-600 transition dark:text-white placeholder-slate-400">
                         <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-400 text-sm"></i>
                     </div>
                     <!-- Theme Toggle Button -->
-                    <button onclick="toggleDarkMode()" id="themeToggleBtn" class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 p-2.5 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition shadow-sm" title="Toggle Theme">
+                    <button onclick="toggleDarkMode()" id="themeToggleBtn"
+                        class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 p-2.5 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition shadow-sm"
+                        title="Toggle Theme">
                         <i class="fa-solid fa-moon dark:hidden text-lg"></i>
                         <i class="fa-solid fa-sun hidden dark:inline text-lg text-amber-400"></i>
                     </button>
@@ -104,7 +133,8 @@
 
                 <!-- Mobile Menu Toggle & Theme -->
                 <div class="flex md:hidden items-center space-x-2">
-                    <button onclick="toggleDarkMode()" class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 p-2.5 rounded-full">
+                    <button onclick="toggleDarkMode()"
+                        class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 p-2.5 rounded-full">
                         <i class="fa-solid fa-moon dark:hidden"></i>
                         <i class="fa-solid fa-sun hidden dark:inline text-amber-400"></i>
                     </button>
@@ -121,12 +151,16 @@
         <div class="bg-white dark:bg-slate-900 w-72 h-full shadow-2xl p-6 flex flex-col justify-between">
             <div>
                 <div class="flex justify-between items-center mb-6">
-                    <span class="text-xl font-black text-slate-900 dark:text-white">ESP32 <span class="text-cyan-600">Car</span></span>
-                    <button id="closeMobileMenu" class="text-slate-500 hover:text-slate-900 dark:hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+                    <span class="text-xl font-black text-slate-900 dark:text-white">ESP32 <span
+                            class="text-cyan-600">Car</span></span>
+                    <button id="closeMobileMenu" class="text-slate-500 hover:text-slate-900 dark:hover:text-white"><i
+                            class="fa-solid fa-xmark text-xl"></i></button>
                 </div>
                 <div class="space-y-4 text-sm font-medium text-slate-700 dark:text-slate-300">
-                    <p class="py-2 border-b border-slate-100 dark:border-slate-800"><i class="fa-solid fa-newspaper mr-2 text-cyan-600"></i> All Project News</p>
-                    <p class="py-2 border-b border-slate-100 dark:border-slate-800"><i class="fa-solid fa-code mr-2 text-blue-500"></i> Firmware & Code</p>
+                    <p class="py-2 border-b border-slate-100 dark:border-slate-800"><i
+                            class="fa-solid fa-newspaper mr-2 text-cyan-600"></i> All Project News</p>
+                    <p class="py-2 border-b border-slate-100 dark:border-slate-800"><i
+                            class="fa-solid fa-code mr-2 text-blue-500"></i> Firmware & Code</p>
                     <p class="py-2"><i class="fa-solid fa-microchip mr-2 text-emerald-500"></i> Sensors & Hardware</p>
                 </div>
             </div>
@@ -136,17 +170,19 @@
     <!-- Main Content Layout -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            
+
             <!-- Main News Feed (2 cols) -->
             <div class="lg:col-span-2 space-y-8">
-                
+
                 <!-- Hero Featured News Container -->
                 <div id="heroContainer"></div>
 
                 <div>
                     <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-xl font-bold text-slate-900 dark:text-white border-l-4 border-cyan-600 pl-3">All Project News & Build Logs</h2>
-                        <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Auto-sorted by newest first</span>
+                        <h2 class="text-xl font-bold text-slate-900 dark:text-white border-l-4 border-cyan-600 pl-3">All
+                            Project News & Build Logs</h2>
+                        <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Auto-sorted by newest
+                            first</span>
                     </div>
 
                     <!-- Articles Grid Container -->
@@ -157,9 +193,10 @@
 
             <!-- Sidebar -->
             <aside class="space-y-6">
-                
+
                 <!-- Project Status Widget -->
-                <div class="bg-gradient-to-br from-cyan-600 to-blue-700 text-white rounded-3xl p-6 shadow-xl relative overflow-hidden">
+                <div
+                    class="bg-gradient-to-br from-cyan-600 to-blue-700 text-white rounded-3xl p-6 shadow-xl relative overflow-hidden">
                     <div class="absolute right-[-10px] bottom-[-10px] opacity-10 text-8xl">
                         <i class="fa-solid fa-microchip"></i>
                     </div>
@@ -175,9 +212,11 @@
                             <span class="text-xl font-black">63.87%</span>
                         </div>
                     </div>
-                    <div class="mt-4 pt-3 border-t border-white/20 text-xs text-cyan-100 flex justify-between items-center">
+                    <div
+                        class="mt-4 pt-3 border-t border-white/20 text-xs text-cyan-100 flex justify-between items-center">
                         <span>Core Diagnostics</span>
-                        <span class="text-emerald-300 font-bold"><i class="fa-solid fa-circle-check mr-1"></i> Passed</span>
+                        <span class="text-emerald-300 font-bold"><i class="fa-solid fa-circle-check mr-1"></i>
+                            Passed</span>
                     </div>
                 </div>
 
@@ -192,11 +231,14 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
                 <div class="space-y-4">
                     <div class="flex items-center space-x-3">
-                        <div class="bg-cyan-600 text-white p-2.5 rounded-xl font-black text-lg"><i class="fa-solid fa-car-side"></i></div>
-                        <span class="text-xl font-black text-white tracking-tight">ESP32 <span class="text-cyan-500">Car</span></span>
+                        <div class="bg-cyan-600 text-white p-2.5 rounded-xl font-black text-lg"><i
+                                class="fa-solid fa-car-side"></i></div>
+                        <span class="text-xl font-black text-white tracking-tight">ESP32 <span
+                                class="text-cyan-500">Car</span></span>
                     </div>
                     <p class="text-xs text-slate-400 leading-relaxed">
-                        A dedicated news and build log portal for the ESP32 microcontroller-based smart robot car project, featuring real-time firmware updates and schematics.
+                        A dedicated news and build log portal for the ESP32 microcontroller-based smart robot car
+                        project, featuring real-time firmware updates and schematics.
                     </p>
                     <div class="flex space-x-4 text-lg">
                         <a href="#" class="hover:text-cyan-400 transition"><i class="fa-brands fa-github"></i></a>
@@ -229,7 +271,8 @@
                     <h4 class="text-white font-semibold text-sm uppercase tracking-wider mb-4">Robot Community</h4>
                     <p class="text-xs text-slate-400 mb-4">Connect with fellow robotics enthusiasts and builders.</p>
                     <div class="space-y-2">
-                        <button class="w-full bg-slate-800 hover:bg-slate-700 text-white text-xs font-medium py-2.5 px-4 rounded-xl flex items-center justify-center space-x-2 transition border border-slate-700">
+                        <button
+                            class="w-full bg-slate-800 hover:bg-slate-700 text-white text-xs font-medium py-2.5 px-4 rounded-xl flex items-center justify-center space-x-2 transition border border-slate-700">
                             <i class="fa-brands fa-discord text-base"></i>
                             <span>Discord Server</span>
                         </button>
@@ -237,7 +280,8 @@
                 </div>
             </div>
 
-            <div class="border-t border-slate-800 pt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500">
+            <div
+                class="border-t border-slate-800 pt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500">
                 <p>&copy; 2026 ESP32 Smart Car Project. All rights reserved.</p>
                 <p class="mt-2 sm:mt-0">Powered by Tailwind CSS</p>
             </div>
@@ -245,37 +289,51 @@
     </footer>
 
     <!-- Article Detail Modal -->
-    <div id="articleModal" class="fixed inset-0 bg-slate-950/75 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-white dark:bg-slate-900 max-w-2xl w-full rounded-3xl shadow-2xl overflow-hidden transform transition-all max-h-[90vh] flex flex-col border border-slate-200 dark:border-slate-800">
-            <div class="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-950">
-                <span class="bg-cyan-600 text-white text-xs font-bold uppercase tracking-wider px-3.5 py-1 rounded-full">Project Update</span>
-                <button onclick="closeArticleModal()" class="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 text-xl font-bold p-1"><i class="fa-solid fa-xmark"></i></button>
+    <div id="articleModal"
+        class="fixed inset-0 bg-slate-950/75 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div
+            class="bg-white dark:bg-slate-900 max-w-2xl w-full rounded-3xl shadow-2xl overflow-hidden transform transition-all max-h-[90vh] flex flex-col border border-slate-200 dark:border-slate-800">
+            <div
+                class="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-950">
+                <span
+                    class="bg-cyan-600 text-white text-xs font-bold uppercase tracking-wider px-3.5 py-1 rounded-full">Project
+                    Update</span>
+                <button onclick="closeArticleModal()"
+                    class="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 text-xl font-bold p-1"><i
+                        class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="p-6 overflow-y-auto space-y-4">
-                <h2 id="modalTitleText" class="text-2xl font-extrabold text-slate-900 dark:text-white leading-snug">Article Title</h2>
+                <h2 id="modalTitleText" class="text-2xl font-extrabold text-slate-900 dark:text-white leading-snug">
+                    Article Title</h2>
                 <div class="flex items-center space-x-3 text-xs text-slate-500 dark:text-slate-400">
                     <span id="modalDateText"><i class="fa-regular fa-clock mr-1"></i> Date</span>
                     <span>•</span>
                     <span id="modalAuthorText">Author</span>
                 </div>
                 <div class="h-64 rounded-2xl overflow-hidden my-4 bg-slate-100 dark:bg-slate-800">
-                    <img id="modalImageSrc" src="https://placehold.co/800x450/0891b2/ffffff?text=ESP32+Car+News" alt="Article image" class="w-full h-full object-cover">
+                    <img id="modalImageSrc" src="https://placehold.co/800x450/0891b2/ffffff?text=ESP32+Car+News"
+                        alt="Article image" class="w-full h-full object-cover">
                 </div>
                 <p id="modalContentText" class="text-slate-700 dark:text-slate-300 text-base leading-relaxed">
                     Full article content goes here.
                 </p>
             </div>
-            <div class="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 flex justify-between items-center">
+            <div
+                class="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 flex justify-between items-center">
                 <div class="flex space-x-3">
-                    <button onclick="showToast('Article link copied or shared successfully!')" class="text-xs bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-4 py-2 rounded-xl font-semibold transition flex items-center space-x-1.5"><i class="fa-solid fa-share-nodes"></i> <span>Share</span></button>
+                    <button onclick="showToast('Article link copied or shared successfully!')"
+                        class="text-xs bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-4 py-2 rounded-xl font-semibold transition flex items-center space-x-1.5"><i
+                            class="fa-solid fa-share-nodes"></i> <span>Share</span></button>
                 </div>
-                <button onclick="closeArticleModal()" class="bg-cyan-600 text-white text-sm font-semibold px-5 py-2.5 rounded-xl hover:bg-cyan-700 transition">Close</button>
+                <button onclick="closeArticleModal()"
+                    class="bg-cyan-600 text-white text-sm font-semibold px-5 py-2.5 rounded-xl hover:bg-cyan-700 transition">Close</button>
             </div>
         </div>
     </div>
 
     <!-- Toast Notification -->
-    <div id="toastNotification" class="fixed bottom-6 right-6 bg-slate-900 dark:bg-slate-800 text-white px-5 py-3.5 rounded-2xl shadow-2xl z-50 transform translate-y-20 opacity-0 transition-all duration-300 flex items-center space-x-3 border border-slate-700">
+    <div id="toastNotification"
+        class="fixed bottom-6 right-6 bg-slate-900 dark:bg-slate-800 text-white px-5 py-3.5 rounded-2xl shadow-2xl z-50 transform translate-y-20 opacity-0 transition-all duration-300 flex items-center space-x-3 border border-slate-700">
         <i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
         <span id="toastMessage" class="text-sm font-medium">Notification message</span>
     </div>
@@ -284,29 +342,29 @@
         const newsArticles = [
             {
                 id: 1,
-                title: "Dedicated Website for ESP32 Software Releases Set to Launch on May 12, 2026",
-                summary: "A new dedicated website designed for downloading all ESP32 software releases and firmware updates in one place will officially launch on May 12, 2026.",
-                content: "A brand-new dedicated platform is being launched to streamline the download process for all ESP32 software releases. Designed specifically for developers, makers, and IoT enthusiasts, this website will serve as a centralized hub to easily access, browse, and download the latest software versions and firmware updates.\n\nThe website is scheduled for official release on May 12, 2026. This initiative aims to deliver a faster, more organized, and seamless user experience for everyone building and innovating within the ESP32 ecosystem.",
-                date: "2026-10-02",
-                time: "16:50",
+                title: "Dedicated Website for ESP32 Software Releases Officially Launched on October 6, 2026 (00:01)",
+                summary: "A new dedicated website designed for downloading all ESP32 software releases and firmware updates in one place officially launched on October 6, 2026 at 00:01.",
+                content: "A brand-new dedicated platform has been launched to streamline the download process for all ESP32 software releases. Designed specifically for developers, makers, and IoT enthusiasts, this website serves as a centralized hub to easily access, browse, and download the latest software versions and firmware updates.\n\nThe website was officially released on October 6, 2026 at 00:01. This initiative aims to deliver a faster, more organized, and seamless user experience for everyone building and innovating within the ESP32 ecosystem.",
+                date: "2026-10-06",
+                time: "00:01",
                 author: "Chamidu Madushan",
                 category: "New Website",
                 image: "https://tse2.mm.bing.net/th/id/OIP.Xlf_0dSFlQr2gWGmdsZe3gHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
                 likes: 45
-           },
+            },
             {
                 id: 2,
-                title: "Dedicated Website for ESP32 Software Releases Set to Launch on May 12, 2026",
-                summary: "A new dedicated website designed for downloading all ESP32 software releases and firmware updates in one place will officially launch on May 12, 2026.",
-                content: "A brand-new dedicated platform is being launched to streamline the download process for all ESP32 software releases. Designed specifically for developers, makers, and IoT enthusiasts, this website will serve as a centralized hub to easily access, browse, and download the latest software versions and firmware updates.\n\nThe website is scheduled for official release on May 12, 2026. This initiative aims to deliver a faster, more organized, and seamless user experience for everyone building and innovating within the ESP32 ecosystem.",
-                date: "2026-10-02",
-                time: "16:50",
+                title: "Dedicated Website for ESP32 Software Releases Officially Launched on October 6, 2026 (00:01)",
+                summary: "A new dedicated website designed for downloading all ESP32 software releases and firmware updates in one place officially launched on October 6, 2026 at 00:01.",
+                content: "A brand-new dedicated platform has been launched to streamline the download process for all ESP32 software releases. Designed specifically for developers, makers, and IoT enthusiasts, this website serves as a centralized hub to easily access, browse, and download the latest software versions and firmware updates.\n\nThe website was officially released on October 6, 2026 at 00:01. This initiative aims to deliver a faster, more organized, and seamless user experience for everyone building and innovating within the ESP32 ecosystem.",
+                date: "2026-10-06",
+                time: "00:01",
                 author: "Chamidu Madushan",
                 category: "New Website",
                 image: "https://tse2.mm.bing.net/th/id/OIP.Xlf_0dSFlQr2gWGmdsZe3gHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
                 likes: 45
-           },
-           {
+            },
+            {
                 id: 3,
                 title: "Major Hardware & Firmware Upgrade for ESP32 Smart Car Project",
                 summary: "Upgraded the ESP32 Car with a new ESP32-CAM board, servo arm, RGB LED lighting, buzzer indicator, and an efficient Buck Converter.",
@@ -317,7 +375,7 @@
                 category: "ESP-32 Car",
                 image: "https://tse4.mm.bing.net/th/id/OIP.C6g60vyNtKW5H7X2UbVjXgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
                 likes: 0
-           },
+            },
             {
                 id: 4,
                 title: "ESP32 Smart Car V1.260917 Firmware and ESP-NOW Remote Released Today(2026-9-19)",
@@ -357,7 +415,7 @@
             if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
             if (diffDays === 1) return 'Yesterday';
             if (diffDays < 7) return `${diffDays} days ago`;
-            
+
             return articleDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
         }
 
@@ -542,4 +600,5 @@
         });
     </script>
 </body>
+
 </html>
